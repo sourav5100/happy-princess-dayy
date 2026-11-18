@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Happy Princess Day, Riddhi Piddi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-deep: #18081e;
+      --bg-mid: #2b1038;
+      --bg-velvet: #3c164c;
+      --rose-light: #ffd6e7;
+      --rose-mid: #ff8fb8;
+      --rose-deep: #e05288;
+      --gold-light: #fff3c4;
+      --gold-mid: #f6d365;
+      --gold-deep: #d4af37;
+      --gold-bronze: #a67c00;
+      --glass-bg: rgba(45, 16, 56, 0.56);
+      --glass-border: rgba(246, 211, 101, 0.36);
+      --text-main: #fff9fc;
+      --text-muted: #f2d5e6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 25%, #3d164e 0%, #230c2e 55%, #120518 100%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      user-select: none;
+    }
+
+    /* Shifting Aurora Background Orbs */
+    .aurora-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .aurora-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(85px);
+      opacity: 0.42;
+      animation: auroraFloat 16s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+      width: 55vw;
+      height: 55vw;
+      max-width: 620px;
+      max-height: 620px;
+      top: -12%;
+      left: -10%;
+      background: radial-gradient(circle, rgba(255, 143, 184, 0.55), transparent 70%);
+    }
+
+    .orb-2 {
+      width: 60vw;
+      height: 60vw;
+      max-width: 680px;
+      max-height: 680px;
+      bottom: -15%;
+      right: -12%;
+      background: radial-gradient(circle, rgba(246, 211, 101, 0.42), transparent 70%);
+      animation-delay: -6s;
+    }
+
+    .orb-3 {
+      width: 45vw;
+      height: 45vw;
+      max-width: 500px;
+      max-height: 500px;
+      top: 38%;
+      left: 32%;
+      background: radial-gradient(circle, rgba(186, 85, 211, 0.4), transparent 70%);
+      animation-delay: -11s;
+    }
+
+    @keyframes auroraFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(35px, -25px) scale(1.08); }
+      100% { transform: translate(-25px, 30px) scale(0.95); }
+    }
+
+    /* Ambient Particle & Confetti Canvas */
+    #magic-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Main App Shell */
+    .app-shell {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Top Header Badge */
+    .top-bar {
+      padding: 16px 24px 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .royal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 20px;
+      border-radius: 999px;
+      background: rgba(34, 11, 45, 0.68);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35), inset 0 0 12px rgba(246, 211, 101, 0.14);
+      backdrop-filter: blur(12px);
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+      letter-spacing: 0.16em;
+      color: var(--gold-light);
+      text-transform: uppercase;
+    }
+
+    /* Slides Viewport */
+    .slides-viewport {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 10px 22px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(48px) scale(0.97);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                  visibility 0.65s;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .slide::-webkit-scrollbar {
+      display: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0) scale(1);
+    }
+
+    .slide.prev-exit {
+      opacity: 0;
+      transform: translateX(-48px) scale(0.97);
+    }
+
+    /* Staggered Entrance Animations */
+    .slide .stagger {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .slide.active .stagger {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide.active .stagger:nth-child(1) { transition-delay: 0.08s; }
+    .slide.active .stagger:nth-child(2) { transition-delay: 0.2s; }
+    .slide.active .stagger:nth-child(3) { transition-delay: 0.32s; }
+    .slide.active .stagger:nth-child(4) { transition-delay: 0.44s; }
+    .slide.active .stagger:nth-child(5) { transition-delay: 0.56s; }
+
+    /* Shimmer Gold Typography */
+    .gold-shimmer {
+      background: linear-gradient(
+        115deg,
+        #d4af37 0%,
+        #fff5cc 25%,
+        #f6d365 50%,
+        #fff8dc 75%,
+        #d4af37 100%
+      );
+      background-size: 220% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmerSweep 4.5s linear infinite;
+    }
+
+    @keyframes shimmerSweep {
+      to { background-position: 220% center; }
+    }
+
+    /* ================= SLIDE 1: ROYAL WELCOME ================= */
+    .crown-stage {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .crown-halo {
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(246, 211, 101, 0.38) 0%, rgba(255, 143, 184, 0.14) 55%, transparent 75%);
+      animation: pulseHalo 3.2s ease-in-out infinite;
+    }
+
+    .crown-ring-outer,
+    .crown-ring-inner {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px dashed rgba(246, 211, 101, 0.55);
+    }
+
+    .crown-ring-outer {
+      inset: 0;
+      animation: spinSlow 24s linear infinite;
+    }
+
+    .crown-ring-inner {
+      inset: 16px;
+      border-style: dotted;
+      border-color: rgba(255, 182, 212, 0.65);
+      animation: spinReverse 18s linear infinite;
+    }
+
+    .crown-icon-wrap {
+      position: relative;
+      z-index: 2;
+      animation: crownFloat 3.6s ease-in-out infinite;
+      filter: drop-shadow(0 8px 20px rgba(246, 211, 101, 0.5));
+    }
+
+    @keyframes pulseHalo {
+      0%, 100% { transform: scale(0.94); opacity: 0.7; }
+      50% { transform: scale(1.12); opacity: 1; }
+    }
+
+    @keyframes spinSlow {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes spinReverse {
+      to { transform: rotate(-360deg); }
+    }
+
+    @keyframes crownFloat {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-9px) rotate(2deg); }
+    }
+
+    .script-subtitle {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2rem, 5vw, 3.1rem);
+      color: var(--rose-light);
+      text-shadow: 0 2px 16px rgba(255, 143, 184, 0.55);
+      margin-bottom: 4px;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 5.6vw, 4rem);
+      line-height: 1.15;
+      text-align: center;
+      letter-spacing: 0.04em;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      margin-bottom: 16px;
+    }
+
+    .hero-proclamation {
+      max-width: 650px;
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.25rem, 2.6vw, 1.65rem);
+      font-weight: 600;
+      line-height: 1.65;
+      color: var(--text-muted);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 22px;
+      padding: 18px 26px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+      margin-bottom: 24px;
+    }
+
+    .royal-btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border-radius: 999px;
+      border: 1.5px solid var(--gold-light);
+      background: linear-gradient(135deg, #f6d365 0%, #d4af37 50%, #f3c65f 100%);
+      color: #260a30;
+      font-family: 'Cinzel Decorative', serif;
+      font-weight: 700;
+      font-size: clamp(0.88rem, 2vw, 1.02rem);
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(212, 175, 55, 0.42), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .royal-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 45%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.65), transparent);
+      transform: rotate(25deg);
+      animation: btnShine 3.8s ease-in-out infinite;
+    }
+
+    @keyframes btnShine {
+      0%, 55% { left: -60%; }
+      100% { left: 135%; }
+    }
+
+    .royal-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 14px 34px rgba(246, 211, 101, 0.6);
+    }
+
+    .royal-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* ================= SLIDE 2: SPOTLIGHT PORTRAIT ================= */
+    .slide2-layout {
+      width: 100%;
+      max-width: 980px;
+      display: grid;
+      grid-template-columns: minmax(250px, 340px) minmax(280px, 1fr);
+      gap: 32px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .portrait-showcase {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .portrait-aura {
+      position: absolute;
+      inset: -14px;
+      border-radius: 34px;
+      background: conic-gradient(
+        from 0deg,
+        rgba(246, 211, 101, 0.75),
+        rgba(255, 143, 184, 0.45),
+        rgba(255, 243, 196, 0.85),
+        rgba(212, 175, 55, 0.45),
+        rgba(246, 211, 101, 0.75)
+      );
+      filter: blur(14px);
+      opacity: 0.65;
+      animation: auraPulse 4s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes auraPulse {
+      0% { opacity: 0.48; transform: scale(0.98); }
+      100% { opacity: 0.82; transform: scale(1.02); }
+    }
+
+    .filigree-frame {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 320px;
+      aspect-ratio: 3 / 4;
+      border-radius: 26px;
+      padding: 10px;
+      background: linear-gradient(145deg, #fff3c4 0%, #d4af37 35%, #7c5806 68%, #f6d365 100%);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), inset 0 0 14px rgba(255, 255, 255, 0.65);
+    }
+
+    .filigree-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #220b2d;
+      border: 2px solid rgba(255, 243, 196, 0.65);
+    }
+
+    .filigree-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      transition: transform 0.7s ease;
+    }
+
+    .filigree-frame:hover .filigree-inner img {
+      transform: scale(1.04);
+    }
+
+    /* Corner Sparkle Glints */
+    .glint {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      z-index: 3;
+      pointer-events: none;
+      animation: glintTwinkle 2.8s ease-in-out infinite;
+    }
+
+    .glint-tl { top: -8px; left: -8px; }
+    .glint-tr { top: -8px; right: -8px; animation-delay: 0.9s; }
+    .glint-bl { bottom: -8px; left: -8px; animation-delay: 1.7s; }
+    .glint-br { bottom: -8px; right: -8px; animation-delay: 2.3s; }
+
+    @keyframes glintTwinkle {
+      0%, 100% { transform: scale(0.6) rotate(0deg); opacity: 0.45; }
+      50% { transform: scale(1.2) rotate(45deg); opacity: 1; }
+    }
+
+    .portrait-plate {
+      position: relative;
+      z-index: 2;
+      margin-top: -16px;
+      padding: 6px 22px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #2d0f3a, #471859);
+      border: 1.5px solid var(--gold-mid);
+      color: var(--gold-light);
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+    }
+
+    .dedication-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 26px;
+      padding: 28px 30px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.4), inset 0 0 24px rgba(246, 211, 101, 0.08);
+    }
+
+    .dedication-eyebrow {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      color: var(--rose-mid);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .dedication-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.5rem, 3.2vw, 2.35rem);
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .dedication-divider {
+      width: 90px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold-mid), transparent);
+      margin-bottom: 16px;
+    }
+
+    .dedication-message {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+      font-style: italic;
+      font-weight: 600;
+      line-height: 1.6;
+      color: #fff6fb;
+      margin-bottom: 18px;
+    }
+
+    .dedication-sign {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.9rem;
+      color: var(--gold-light);
+    }
+
+    /* ================= SLIDE 3: 4 ROYAL VIRTUE CARDS ================= */
+    .slide-header-group {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .slide-heading {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.5rem, 3.6vw, 2.5rem);
+      margin-bottom: 4px;
+    }
+
+    .slide-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+      color: var(--text-muted);
+    }
+
+    .virtues-grid {
+      width: 100%;
+      max-width: 1060px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .flip-card {
+      perspective: 1100px;
+      height: 250px;
+      cursor: pointer;
+    }
+
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-style: preserve-3d;
+    }
+
+    .flip-card.flipped .flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 22px;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.38);
+      overflow: hidden;
+    }
+
+    .flip-front {
+      background: linear-gradient(160deg, rgba(64, 22, 82, 0.78), rgba(31, 10, 41, 0.88));
+      backdrop-filter: blur(12px);
+    }
+
+    .flip-front::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(125deg, transparent 30%, rgba(255, 243, 196, 0.14) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 0.65s ease;
+    }
+
+    .flip-card:hover .flip-front::before {
+      transform: translateX(100%);
+    }
+
+    .virtue-emblem {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, rgba(246, 211, 101, 0.28), rgba(255, 143, 184, 0.12));
+      border: 1px solid rgba(246, 211, 101, 0.5);
+      font-size: 1.65rem;
+      margin-bottom: 14px;
+      box-shadow: 0 0 20px rgba(246, 211, 101, 0.25);
+    }
+
+    .virtue-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1.05rem;
+      color: var(--gold-light);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .tap-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.76rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--rose-light);
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(255, 143, 184, 0.14);
+      border: 1px solid rgba(255, 143, 184, 0.35);
+    }
+
+    .flip-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(155deg, #4b185f 0%, #2b0d38 100%);
+      border: 1.5px solid var(--gold-mid);
+      box-shadow: 0 16px 38px rgba(212, 175, 55, 0.26), inset 0 0 20px rgba(246, 211, 101, 0.15);
+    }
+
+    .virtue-reveal-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.24rem;
+      font-weight: 600;
+      line-height: 1.45;
+      color: #fff9fc;
+    }
+
+    /* ================= SLIDE 4: GRAND FINALE & CAKE ================= */
+    .finale-wrap {
+      width: 100%;
+      max-width: 740px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .cake-stage {
+      position: relative;
+      margin: 4px 0 12px;
+      padding: 10px 24px 4px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .cake-stage:hover {
+      transform: scale(1.03);
+    }
+
+    .cake-glow {
+      position: absolute;
+      inset: 10% 15%;
+      background: radial-gradient(circle, rgba(246, 211, 101, 0.34), rgba(255, 143, 184, 0.18), transparent 72%);
+      filter: blur(18px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .royal-cake-svg {
+      position: relative;
+      z-index: 1;
+      width: clamp(240px, 44vw, 310px);
+      height: auto;
+      filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.5));
+    }
+
+    .candle-flame {
+      transform-origin: center bottom;
+      animation: flameFlicker 1.4s ease-in-out infinite alternate;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .candle-flame.f2 { animation-delay: 0.3s; }
+    .candle-flame.f3 { animation-delay: 0.6s; }
+
+    .cake-stage.candles-out .candle-flame {
+      opacity: 0;
+      transform: scale(0.1);
+    }
+
+    @keyframes flameFlicker {
+      0% { transform: scale(0.94) rotate(-3deg); opacity: 0.9; }
+      50% { transform: scale(1.06) rotate(2deg); opacity: 1; }
+      100% { transform: scale(0.97) rotate(-1deg); opacity: 0.92; }
+    }
+
+    .cake-hint {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      opacity: 0.85;
+      margin-bottom: 10px;
+    }
+
+    .finale-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.55rem, 3.8vw, 2.55rem);
+      margin-bottom: 8px;
+    }
+
+    .finale-note {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.12rem, 2.3vw, 1.4rem);
+      color: var(--text-muted);
+      max-width: 580px;
+      line-height: 1.55;
+      margin-bottom: 18px;
+    }
+
+    .finale-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .secondary-btn {
+      padding: 13px 24px;
+      border-radius: 999px;
+      background: rgba(45, 16, 56, 0.7);
+      border: 1px solid var(--glass-border);
+      color: var(--gold-light);
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.86rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+    }
+
+    .secondary-btn:hover {
+      background: rgba(246, 211, 101, 0.16);
+      border-color: var(--gold-mid);
+      transform: translateY(-2px);
+    }
+
+    /* ================= BOTTOM NAVIGATION BAR ================= */
+    .bottom-nav {
+      padding: 10px 24px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      z-index: 10;
+    }
+
+    .nav-arrow {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      background: rgba(34, 11, 45, 0.75);
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .nav-arrow:hover:not(:disabled) {
+      background: rgba(246, 211, 101, 0.22);
+      border-color: var(--gold-mid);
+      transform: scale(1.08);
+    }
+
+    .nav-arrow:disabled {
+      opacity: 0.32;
+      cursor: not-allowed;
+    }
+
+    .dots-track {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(34, 11, 45, 0.65);
+      border: 1px solid rgba(246, 211, 101, 0.22);
+      backdrop-filter: blur(10px);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(255, 214, 231, 0.32);
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .dot.active {
+      width: 28px;
+      background: linear-gradient(90deg, #f6d365, #ff8fb8);
+      box-shadow: 0 0 12px rgba(246, 211, 101, 0.75);
+    }
+
+    /* ================= RESPONSIVE ADJUSTMENTS ================= */
+    @media (max-width: 900px) {
+      .virtues-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: 580px;
+        gap: 14px;
+      }
+
+      .flip-card {
+        height: 185px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .slide {
+        justify-content: flex-start;
+        padding-top: 8px;
+      }
+
+      .slide2-layout {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        max-width: 440px;
+      }
+
+      .filigree-frame {
+        max-width: 215px;
+      }
+
+      .dedication-card {
+        padding: 20px 22px;
+        text-align: center;
+      }
+
+      .dedication-divider {
+        margin: 0 auto 12px;
+      }
+    }
+
+    @media (max-width: 460px) {
+      .virtues-grid {
+        grid-template-columns: 1fr;
+        max-width: 340px;
+      }
+
+      .flip-card {
+        height: 142px;
+      }
+
+      .flip-face {
+        padding: 14px;
+      }
+
+      .virtue-emblem {
+        width: 42px;
+        height: 42px;
+        font-size: 1.25rem;
+        margin-bottom: 8px;
+      }
+
+      .virtue-title {
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+      }
+
+      .virtue-reveal-text {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Ambient Aurora Orbs -->
+  <div class="aurora-layer" aria-hidden="true">
+    <div class="aurora-orb orb-1"></div>
+    <div class="aurora-orb orb-2"></div>
+    <div class="aurora-orb orb-3"></div>
+  </div>
+
+  <!-- Rose Petals, Golden Dust & Royal Confetti Canvas -->
+  <canvas id="magic-canvas"></canvas>
+
+  <div class="app-shell">
+    <!-- Top Royal Crest Header -->
+    <header class="top-bar">
+      <div class="royal-badge">
+        <span>&#10022;</span>
+        <span>Royal Celebration &bull; Riddhi Piddi</span>
+        <span>&#10022;</span>
+      </div>
+    </header>
+
+    <!-- Slides Container -->
+    <main class="slides-viewport" id="slides-viewport">
+      <!-- SLIDE 1: ROYAL WELCOME -->
+      <section class="slide active" data-slide="0" aria-label="Royal Welcome">
+        <div class="crown-stage stagger">
+          <div class="crown-halo"></div>
+          <div class="crown-ring-outer"></div>
+          <div class="crown-ring-inner"></div>
+          <div class="crown-icon-wrap">
+            <svg width="84" height="84" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="crownGold" x1="10" y1="15" x2="90" y2="85" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#FFF5CC" />
+                  <stop offset="45%" stop-color="#F6D365" />
+                  <stop offset="100%" stop-color="#B8860B" />
+                </linearGradient>
+              </defs>
+              <path d="M16 74L10 34L33 50L50 22L67 50L90 34L84 74H16Z" fill="url(#crownGold)" stroke="#FFF8DC" stroke-width="2.5" stroke-linejoin="round" />
+              <rect x="16" y="76" width="68" height="9" rx="4.5" fill="url(#crownGold)" stroke="#FFF8DC" stroke-width="2" />
+              <circle cx="10" cy="30" r="4.5" fill="#FFD6E7" />
+              <circle cx="50" cy="17" r="5.5" fill="#FF8FB8" />
+              <circle cx="90" cy="30" r="4.5" fill="#FFD6E7" />
+              <circle cx="50" cy="58" r="5" fill="#E05288" />
+              <circle cx="32" cy="62" r="3.5" fill="#FFF8DC" />
+              <circle cx="68" cy="62" r="3.5" fill="#FFF8DC" />
+            </svg>
+          </div>
+        </div>
+
+        <p class="script-subtitle stagger">For Our Favourite Princess</p>
+        <h1 class="hero-title gold-shimmer stagger">Happy Princess Day,<br />Riddhi Piddi</h1>
+
+        <p class="hero-proclamation stagger">
+          &ldquo;sorry maate aaajkl aapko time nhi de para uske lye sorry&rdquo;
+        </p>
+
+        <button class="royal-btn stagger" id="start-journey-btn" type="button">
+          <span>Enter Your Royal Story</span>
+          <span>&#10140;</span>
+        </button>
+      </section>
+
+      <!-- SLIDE 2: SPOTLIGHT PORTRAIT -->
+      <section class="slide" data-slide="1" aria-label="Royal Portrait">
+        <div class="slide2-layout">
+          <div class="portrait-showcase stagger">
+            <div class="portrait-aura"></div>
+            <div class="filigree-frame">
+              <svg class="glint glint-tl" viewBox="0 0 24 24" fill="#FFF5CC"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/></svg>
+              <svg class="glint glint-tr" viewBox="0 0 24 24" fill="#FFD6E7"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/></svg>
+              <svg class="glint glint-bl" viewBox="0 0 24 24" fill="#FFD6E7"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/></svg>
+              <svg class="glint glint-br" viewBox="0 0 24 24" fill="#FFF5CC"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/></svg>
+
+              <div class="filigree-inner">
+                <img
+                  src="https://i.postimg.cc/pT2RrdWW/Whats-App-Image-2026-11-18-at-8-37-11-PM.jpg"
+                  alt="Princess Riddhi Piddi"
+                  loading="eager"
+                />
+              </div>
+            </div>
+            <div class="portrait-plate">&#9813; Riddhi Piddi &#9813;</div>
+          </div>
+
+          <div class="dedication-card stagger">
+            <div class="dedication-eyebrow">A Heartfelt Note For You</div>
+            <h2 class="dedication-title gold-shimmer">The Queen of Every Moment</h2>
+            <div class="dedication-divider"></div>
+            <p class="dedication-message">
+              &ldquo;i wish i could hug you right now cuz i really missed you today aaj tera special day h&rdquo;
+            </p>
+            <div class="dedication-sign">Always cheering for you &#10084;</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: 4 ROYAL VIRTUE FLIP CARDS -->
+      <section class="slide" data-slide="2" aria-label="Royal Virtues">
+        <div class="slide-header-group stagger">
+          <h2 class="slide-heading gold-shimmer">Why You Are One of a Kind</h2>
+          <p class="slide-sub">Tap each royal card to reveal a secret message</p>
+        </div>
+
+        <div class="virtues-grid stagger">
+          <!-- Card 1 -->
+          <div class="flip-card" role="button" tabindex="0" aria-label="Grace and Kindness card">
+            <div class="flip-inner">
+              <div class="flip-face flip-front">
+                <div class="virtue-emblem">&#10024;</div>
+                <h3 class="virtue-title">Grace &amp; Kindness</h3>
+                <span class="tap-hint">Tap to Reveal</span>
+              </div>
+              <div class="flip-face flip-back">
+                <p class="virtue-reveal-text">&ldquo;thanks snap pe khbhi bhi filter na hatane k liye&rdquo;</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="flip-card" role="button" tabindex="0" aria-label="Unstoppable Strength card">
+            <div class="flip-inner">
+              <div class="flip-face flip-front">
+                <div class="virtue-emblem">&#128081;</div>
+                <h3 class="virtue-title">Unstoppable Strength</h3>
+                <span class="tap-hint">Tap to Reveal</span>
+              </div>
+              <div class="flip-face flip-back">
+                <p class="virtue-reveal-text">&ldquo;dhanyvad mere text ka itna wait krne k liye i respect you efforts&rdquo;</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="flip-card" role="button" tabindex="0" aria-label="Radiant Smile card">
+            <div class="flip-inner">
+              <div class="flip-face flip-front">
+                <div class="virtue-emblem">&#127801;</div>
+                <h3 class="virtue-title">Radiant Smile</h3>
+                <span class="tap-hint">Tap to Reveal</span>
+              </div>
+              <div class="flip-face flip-back">
+                <p class="virtue-reveal-text">&ldquo;teri chilam si smile badi pyari hai :)&rdquo;</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="flip-card" role="button" tabindex="0" aria-label="Golden Heart card">
+            <div class="flip-inner">
+              <div class="flip-face flip-front">
+                <div class="virtue-emblem">&#128150;</div>
+                <h3 class="virtue-title">Golden Heart</h3>
+                <span class="tap-hint">Tap to Reveal</span>
+              </div>
+              <div class="flip-face flip-back">
+                <p class="virtue-reveal-text">&ldquo;thanks for being so much loyal jo ek baar khte hi har ladke ko hata dia&rdquo;</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: GRAND FINALE WITH PRINCESS CAKE -->
+      <section class="slide" data-slide="3" aria-label="Grand Finale">
+        <div class="finale-wrap">
+          <div class="cake-stage stagger" id="cake-stage" title="Tap cake to make a wish!">
+            <div class="cake-glow"></div>
+            <svg class="royal-cake-svg" viewBox="0 0 360 285" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="plateGrad" x1="30" y1="248" x2="330" y2="268" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#B8860B" />
+                  <stop offset="35%" stop-color="#FFF5CC" />
+                  <stop offset="65%" stop-color="#F6D365" />
+                  <stop offset="100%" stop-color="#9A6B00" />
+                </linearGradient>
+                <linearGradient id="tierBottomGrad" x1="65" y1="168" x2="295" y2="248" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#FF9EC4" />
+                  <stop offset="50%" stop-color="#F26CA2" />
+                  <stop offset="100%" stop-color="#C94179" />
+                </linearGradient>
+                <linearGradient id="tierTopGrad" x1="102" y1="104" x2="258" y2="168" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#FFD9EA" />
+                  <stop offset="55%" stop-color="#FF99C2" />
+                  <stop offset="100%" stop-color="#DE578E" />
+                </linearGradient>
+                <linearGradient id="goldTrim" x1="0" y1="0" x2="360" y2="0" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#D4AF37" />
+                  <stop offset="50%" stop-color="#FFF6D1" />
+                  <stop offset="100%" stop-color="#D4AF37" />
+                </linearGradient>
+                <linearGradient id="plaqueGrad" x1="92" y1="186" x2="268" y2="232" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#351044" />
+                  <stop offset="50%" stop-color="#531A69" />
+                  <stop offset="100%" stop-color="#2D0C3A" />
+                </linearGradient>
+              </defs>
+
+              <!-- Golden Pedestal Plate -->
+              <ellipse cx="180" cy="256" rx="148" ry="16" fill="url(#plateGrad)" />
+              <ellipse cx="180" cy="252" rx="136" ry="11" fill="#FFF8DC" fill-opacity="0.45" />
+
+              <!-- Bottom Tier -->
+              <rect x="68" y="168" width="224" height="80" rx="16" fill="url(#tierBottomGrad)" stroke="#FFD6E7" stroke-width="1.5" />
+              <!-- Bottom Tier Frosting Drips -->
+              <path d="M68 176C68 168 78 168 88 168H272C282 168 292 168 292 176V184C284 191 276 182 268 187C260 192 252 181 244 186C236 191 228 181 220 186C212 191 204 181 196 186C188 191 180 181 172 186C164 191 156 181 148 186C140 191 132 181 124 186C116 191 108 181 100 186C92 191 84 182 76 187C71 190 68 184 68 176Z" fill="#FFF7FB" fill-opacity="0.92" />
+              <!-- Gold Pearl Border Bottom -->
+              <rect x="66" y="242" width="228" height="7" rx="3.5" fill="url(#goldTrim)" />
+
+              <!-- Ribbon Plaque with "Happy Princess Day" -->
+              <rect x="86" y="192" width="188" height="40" rx="20" fill="url(#plaqueGrad)" stroke="url(#goldTrim)" stroke-width="2.5" />
+              <text x="180" y="217" text-anchor="middle" fill="#FFF3C4" font-family="'Cinzel Decorative', serif" font-weight="700" font-size="13.5" letter-spacing="0.6">
+                Happy Princess Day
+              </text>
+
+              <!-- Top Tier -->
+              <rect x="104" y="106" width="152" height="62" rx="14" fill="url(#tierTopGrad)" stroke="#FFF0F6" stroke-width="1.5" />
+              <!-- Top Tier Frosting Drips -->
+              <path d="M104 114C104 106 112 106 120 106H240C248 106 256 106 256 114V121C248 128 240 119 232 124C224 129 216 119 208 124C200 129 192 119 184 124C176 129 168 119 160 124C152 129 144 119 136 124C128 129 120 119 112 124C107 127 104 121 104 114Z" fill="#FFF9FC" fill-opacity="0.95" />
+              <!-- Decorative Hearts on Top Tier -->
+              <text x="134" y="151" text-anchor="middle" fill="#FFF5CC" font-size="13">&#10022;</text>
+              <text x="180" y="152" text-anchor="middle" fill="#FFF5CC" font-size="15">&#9829;</text>
+              <text x="226" y="151" text-anchor="middle" fill="#FFF5CC" font-size="13">&#10022;</text>
+              <rect x="102" y="163" width="156" height="6" rx="3" fill="url(#goldTrim)" />
+
+              <!-- Candles (Left & Right) -->
+              <rect x="132" y="72" width="8" height="34" rx="4" fill="#FFF5CC" stroke="#D4AF37" stroke-width="1.2" />
+              <rect x="220" y="72" width="8" height="34" rx="4" fill="#FFF5CC" stroke="#D4AF37" stroke-width="1.2" />
+
+              <!-- Candle Flames -->
+              <g class="candle-flame f1">
+                <path d="M136 48C136 48 143 58 143 63C143 67 139.9 70 136 70C132.1 70 129 67 129 63C129 58 136 48 136 48Z" fill="#FF9E2C" />
+                <path d="M136 54C136 54 139.5 60 139.5 63C139.5 65.2 137.9 67 136 67C134.1 67 132.5 65.2 132.5 63C132.5 60 136 54 136 54Z" fill="#FFF8CC" />
+              </g>
+              <g class="candle-flame f2">
+                <path d="M224 48C224 48 231 58 231 63C231 67 227.9 70 224 70C220.1 70 217 67 217 63C217 58 224 48 224 48Z" fill="#FF9E2C" />
+                <path d="M224 54C224 54 227.5 60 227.5 63C227.5 65.2 225.9 67 224 67C222.1 67 220.5 65.2 220.5 63C220.5 60 224 54 224 54Z" fill="#FFF8CC" />
+              </g>
+
+              <!-- Center Royal Crown Topper -->
+              <path d="M156 102L151 74L167 86L180 66L193 86L209 74L204 102H156Z" fill="url(#goldTrim)" stroke="#FFF9E6" stroke-width="1.5" stroke-linejoin="round" />
+              <circle cx="151" cy="71" r="3" fill="#FFD6E7" />
+              <circle cx="180" cy="62" r="3.8" fill="#FF8FB8" />
+              <circle cx="209" cy="71" r="3" fill="#FFD6E7" />
+            </svg>
+          </div>
+
+          <div class="cake-hint stagger" id="cake-hint-text">&#10024; Tap the cake to blow the candles &amp; make a wish &#10024;</div>
+          <h2 class="finale-title gold-shimmer stagger">Keep Shining, Princess Riddhi Piddi!</h2>
+          <p class="finale-note stagger">
+            May your year be filled with endless laughter, genuine love, and every dream your golden heart wishes for.
+          </p>
+
+          <div class="finale-actions stagger">
+            <button class="royal-btn" id="celebrate-btn" type="button">
+              <span>&#127881;</span>
+              <span>Shower with Royal Confetti</span>
+            </button>
+            <button class="secondary-btn" id="replay-btn" type="button">
+              &#8634; Replay Story
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Slide Navigation -->
+    <nav class="bottom-nav" aria-label="Slide Navigation">
+      <button class="nav-arrow" id="prev-btn" type="button" aria-label="Previous slide" disabled>
+        &#10094;
+      </button>
+      <div class="dots-track" role="tablist" aria-label="Slide Indicators">
+        <button class="dot active" type="button" data-target="0" aria-label="Slide 1"></button>
+        <button class="dot" type="button" data-target="1" aria-label="Slide 2"></button>
+        <button class="dot" type="button" data-target="2" aria-label="Slide 3"></button>
+        <button class="dot" type="button" data-target="3" aria-label="Slide 4"></button>
+      </div>
+      <button class="nav-arrow" id="next-btn" type="button" aria-label="Next slide">
+        &#10095;
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    (() => {
+      /* ================= SLIDE CONTROLLER ================= */
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const dots = Array.from(document.querySelectorAll('.dot'));
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const startJourneyBtn = document.getElementById('start-journey-btn');
+      const replayBtn = document.getElementById('replay-btn');
+      const celebrateBtn = document.getElementById('celebrate-btn');
+      const cakeStage = document.getElementById('cake-stage');
+      const cakeHintText = document.getElementById('cake-hint-text');
+
+      let currentIndex = 0;
+
+      function goToSlide(index) {
+        if (index < 0 || index >= slides.length || index === currentIndex) return;
+
+        const previousSlide = slides[currentIndex];
+        previousSlide.classList.remove('active');
+        if (index > currentIndex) {
+          previousSlide.classList.add('prev-exit');
+        }
+        setTimeout(() => previousSlide.classList.remove('prev-exit'), 650);
+
+        currentIndex = index;
+        slides[currentIndex].scrollTop = 0;
+        slides[currentIndex].classList.add('active');
+
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('active', idx === currentIndex);
+        });
+
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === slides.length - 1;
+
+        if (currentIndex === slides.length - 1) {
+          launchConfettiBurst(window.innerWidth * 0.5, window.innerHeight * 0.45, 70);
+        }
+      }
+
+      prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+      nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+      startJourneyBtn.addEventListener('click', () => {
+        launchConfettiBurst(window.innerWidth * 0.5, window.innerHeight * 0.65, 45);
+        goToSlide(1);
+      });
+      replayBtn.addEventListener('click', () => {
+        cakeStage.classList.remove('candles-out');
+        cakeHintText.textContent = '✨ Tap the cake to blow the candles & make a wish ✨';
+        goToSlide(0);
+      });
+
+      dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          const target = Number(dot.dataset.target);
+          goToSlide(target);
+        });
+      });
+
+      /* Keyboard Navigation */
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') goToSlide(currentIndex + 1);
+        if (e.key === 'ArrowLeft') goToSlide(currentIndex - 1);
+      });
+
+      /* Touch Swipe Support */
+      let touchStartX = 0;
+      let touchStartY = 0;
+      const viewport = document.getElementById('slides-viewport');
+
+      viewport.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+      }, { passive: true });
+
+      viewport.addEventListener('touchend', (e) => {
+        const dx = e.changedTouches[0].screenX - touchStartX;
+        const dy = e.changedTouches[0].screenY - touchStartY;
+        if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) {
+          if (dx < 0) goToSlide(currentIndex + 1);
+          else goToSlide(currentIndex - 1);
+        }
+      }, { passive: true });
+
+      /* ================= FLIP CARDS INTERACTION ================= */
+      const flipCards = document.querySelectorAll('.flip-card');
+      flipCards.forEach((card) => {
+        const toggleCard = (e) => {
+          card.classList.toggle('flipped');
+          const rect = card.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          launchConfettiBurst(cx, cy, 26);
+        };
+        card.addEventListener('click', toggleCard);
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleCard(e);
+          }
+        });
+      });
+
+      /* ================= CAKE INTERACTION ================= */
+      cakeStage.addEventListener('click', () => {
+        const isOut = cakeStage.classList.toggle('candles-out');
+        const rect = cakeStage.getBoundingClientRect();
+        launchConfettiBurst(rect.left + rect.width / 2, rect.top + rect.height * 0.35, 85);
+        if (isOut) {
+          cakeHintText.textContent = '🌟 Wish made! Tap again to relight the candles 🌟';
+        } else {
+          cakeHintText.textContent = '✨ Tap the cake to blow the candles & make a wish ✨';
+        }
+      });
+
+      celebrateBtn.addEventListener('click', () => {
+        launchConfettiBurst(window.innerWidth * 0.25, window.innerHeight * 0.55, 65);
+        launchConfettiBurst(window.innerWidth * 0.75, window.innerHeight * 0.55, 65);
+        launchConfettiBurst(window.innerWidth * 0.5, window.innerHeight * 0.35, 85);
+      });
+
+      /* ================= AMBIENT PETALS, GOLD DUST & CONFETTI CANVAS ================= */
+      const canvas = document.getElementById('magic-canvas');
+      const ctx = canvas.getContext('2d');
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      const ambientParticles = [];
+      const burstParticles = [];
+      const palette = ['#f6d365', '#fff3c4', '#ff8fb8', '#ffd6e7', '#e05288', '#ffffff'];
+
+      function createAmbientParticle() {
+        const isPetal = Math.random() < 0.38;
+        return {
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: isPetal ? 5 + Math.random() * 5 : 1.5 + Math.random() * 2.8,
+          speedY: isPetal ? 0.45 + Math.random() * 0.75 : -0.15 - Math.random() * 0.35,
+          speedX: (Math.random() - 0.5) * 0.6,
+          angle: Math.random() * Math.PI * 2,
+          spin: (Math.random() - 0.5) * 0.03,
+          alpha: 0.35 + Math.random() * 0.55,
+          isPetal,
+          color: isPetal
+            ? (Math.random() > 0.5 ? 'rgba(255, 165, 200, 0.55)' : 'rgba(255, 214, 231, 0.5)')
+            : (Math.random() > 0.3 ? 'rgba(246, 211, 101, 0.75)' : 'rgba(255, 255, 255, 0.7)')
+        };
+      }
+
+      for (let i = 0; i < 65; i++) {
+        ambientParticles.push(createAmbientParticle());
+      }
+
+      function launchConfettiBurst(originX, originY, count = 60) {
+        const symbols = ['★', '♥', '✦', '♛'];
+        for (let i = 0; i < count; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const velocity = 2.8 + Math.random() * 7.5;
+          const isSymbol = Math.random() < 0.25;
+          burstParticles.push({
+            x: originX,
+            y: originY,
+            vx: Math.cos(angle) * velocity,
+            vy: Math.sin(angle) * velocity - 2.4,
+            gravity: 0.16 + Math.random() * 0.08,
+            drag: 0.975,
+            size: isSymbol ? 12 + Math.random() * 8 : 5 + Math.random() * 6,
+            rotation: Math.random() * Math.PI * 2,
+            vRot: (Math.random() - 0.5) * 0.18,
+            color: palette[Math.floor(Math.random() * palette.length)],
+            alpha: 1,
+            decay: 0.011 + Math.random() * 0.01,
+            symbol: isSymbol ? symbols[Math.floor(Math.random() * symbols.length)] : null
+          });
+        }
+      }
+
+      function animateCanvas() {
+        ctx.clearRect(0, 0, width, height);
+
+        /* Ambient Gold Dust & Drifting Rose Petals */
+        for (let i = 0; i < ambientParticles.length; i++) {
+          const p = ambientParticles[i];
+          p.x += p.speedX + Math.sin(p.angle) * 0.25;
+          p.y += p.speedY;
+          p.angle += p.spin;
+
+          if (p.y > height + 20) {
+            p.y = -15;
+            p.x = Math.random() * width;
+          } else if (p.y < -20) {
+            p.y = height + 15;
+            p.x = Math.random() * width;
+          }
+          if (p.x > width + 20) p.x = -15;
+          if (p.x < -20) p.x = width + 15;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.angle);
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = p.color;
+
+          if (p.isPetal) {
+            ctx.beginPath();
+            ctx.ellipse(0, 0, p.size, p.size * 0.55, 0, 0, Math.PI * 2);
+            ctx.fill();
+          } else {
+            ctx.beginPath();
+            ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.restore();
+        }
+
+        /* Interactive Confetti & Sparkle Bursts */
+        for (let i = burstParticles.length - 1; i >= 0; i--) {
+          const b = burstParticles[i];
+          b.vx *= b.drag;
+          b.vy = b.vy * b.drag + b.gravity;
+          b.x += b.vx;
+          b.y += b.vy;
+          b.rotation += b.vRot;
+          b.alpha -= b.decay;
+
+          if (b.alpha <= 0) {
+            burstParticles.splice(i, 1);
+            continue;
+          }
+
+          ctx.save();
+          ctx.translate(b.x, b.y);
+          ctx.rotate(b.rotation);
+          ctx.globalAlpha = Math.max(0, b.alpha);
+          ctx.fillStyle = b.color;
+
+          if (b.symbol) {
+            ctx.font = `${b.size}px serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(b.symbol, 0, 0);
+          } else {
+            ctx.fillRect(-b.size / 2, -b.size * 0.35, b.size, b.size * 0.7);
+          }
+          ctx.restore();
+        }
+
+        requestAnimationFrame(animateCanvas);
+      }
+
+      animateCanvas();
+    })();
+  </script>
+</body>
+</html>
